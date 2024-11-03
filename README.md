@@ -71,9 +71,9 @@ Após a importação, vá para Dados Coletados > Hosts (Hosts) e selecione o hos
 Clique em Templates (Templates) e adicione o template Template_Mikrotik_Backup_Zabbix_7 ao host.
 
 ## Passo 6: Configurar as Macros no Host
-Para que o script possa acessar o MikroTik, é necessário configurar as macros herdadas no host.
+Para que o script possa acessar o MikroTik, é necessário configurar as Macros herdadas e de template.
 
-No host MikroTik, vá para a aba Macros.
+No host MikroTik, vá para a aba Macros > Macros herdadas e de template.
 
 Configure as seguintes macros:
 
