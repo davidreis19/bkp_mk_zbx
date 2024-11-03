@@ -77,9 +77,11 @@ No host MikroTik, vá para a aba Macros.
 
 Configure as seguintes macros:
 
+```bash
 {$USERNAME}: Insira o usuário SSH do MikroTik.
 {$PASSWORD}: Insira a senha SSH do MikroTik.
 {$BACKUP_DIR}: Insira o diretório de backups configurado anteriormente (/home/zabbix/backups).
+```
 
 ## Passo 7: Testar a Configuração
 Após configurar tudo, é importante testar se o backup está funcionando corretamente.
