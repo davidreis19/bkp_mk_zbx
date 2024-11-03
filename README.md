@@ -30,16 +30,6 @@ chmod +x backup_mk.py
 chown zabbix:zabbix backup_mk.py
 ```
 
-Utilizar o arquivo backup_mk.py
-
-## Esse script solicita 5 parâmetros que são passados ao chamar o mesmo.
-
-host = sys.argv[1]  # Endereço  o IP do MikroTik
-hostname = sys.argv[2]  # Nome host Mikrotik no Zabbix
-username = sys.argv[3]  # Usuario do mikrotik
-password = sys.argv[4]  # Senha do mikrotik
-base_backup_dir = sys.argv[5]  # Caminho para salvar o backup
-
 Como o zabbix não entende python, devemos criar um script em Shell Script na mesma pasta anterior, para chamar o script em python e passar os parametros que serão recebidos do zabbix.
 
 ```python
@@ -68,3 +58,15 @@ chown -R zabbix:zabbix /home/zabbix
 Dentro do Zabbix 7 devemos importar o template que está com o nome: Template_Mikrotik_Backup_Zabbix_7.json
 
 Agora basta inserir esse template no host que quiser.
+
+Após inserir no host é necessário alterar alterar as Macros Herdadas, para que o script consiga acessar o Mikrotik
+
+São 3 variáveis que devem ser alteradas
+
+```bash
+{$USERNAME} = inserir o usuario do mikrotik
+{$PASSWORD} = inserir a senha do mikrotik
+{$BACKUP_DIR} = inserir o diretorio configurado anteriormente /home/zabbix/backups
+```
+
+Por padrão o template está configurado para executar o script 1 vez ao dia a 1 hora da manhã.
