@@ -95,6 +95,9 @@ Verifique se os backups estão sendo salvos no diretório /home/zabbix/backups c
 Caso haja erros, verifique os logs do Zabbix e ajuste as permissões ou configurações conforme necessário.
 
 ## Dicas de Segurança
+
+Importante: Antes de testar em produção, teste em um equipamento em bancada para entender o funcionamento.
+
 Permissões: Garanta que apenas o usuário zabbix tenha acesso aos scripts e diretórios de backup.
 
 Backups Remotos: Considere armazenar backups em um local remoto ou serviço de armazenamento seguro para proteção adicional.
