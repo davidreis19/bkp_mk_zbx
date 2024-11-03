@@ -3,7 +3,7 @@ Desenvolvido por Anderson Reis com a ajuda do ChatGPT
 
 Este tutorial tem como objetivo ensinar como realizar o backup de equipamentos MikroTik utilizando o Zabbix 7.0. O processo envolve a configuração de scripts em Python e Shell, além da integração com o Zabbix para automatizar as tarefas de backup.
 
-##Pré-requisitos
+### Pré-requisitos
 Servidor com Zabbix 7.0 instalado.
 Acesso SSH aos equipamentos MikroTik a partir do servidor Zabbix.
 Conhecimentos básicos em Linux, Python e Shell Script.
