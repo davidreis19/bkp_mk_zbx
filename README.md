@@ -62,11 +62,11 @@ sudo chmod -R 750 /home/zabbix/backups
 ## Passo 5: Importar e Configurar o Template no Zabbix
 Acesse a interface web do Zabbix com uma conta administrativa.
 
-Navegue até Configuration (Configuração) > Templates (Templates).
+Navegue até Dados Coletados > Templates (Templates).
 
 Clique em Import (Importar) e selecione o arquivo Template_Mikrotik_Backup_Zabbix_7.json.
 
-Após a importação, vá para Configuration (Configuração) > Hosts (Hosts) e selecione o host MikroTik que deseja configurar.
+Após a importação, vá para Dados Coletados > Hosts (Hosts) e selecione o host MikroTik que deseja configurar.
 
 Clique em Templates (Templates) e adicione o template Template_Mikrotik_Backup_Zabbix_7 ao host.
 
@@ -81,16 +81,7 @@ Configure as seguintes macros:
 {$PASSWORD}: Insira a senha SSH do MikroTik.
 {$BACKUP_DIR}: Insira o diretório de backups configurado anteriormente (/home/zabbix/backups).
 
-## Passo 7: Agendar a Tarefa de Backup
-Por padrão, o template está configurado para executar o script uma vez ao dia, às 1 hora da manhã. Caso deseje alterar o agendamento:
-
-No host MikroTik, navegue até Configuration (Configuração) > Templates (Templates).
-
-Selecione o template Template_Mikrotik_Backup_Zabbix_7 e edite o Item (Item) ou Trigger (Gatilho) responsável pelo agendamento.
-
-Ajuste o Intervalo de atualização conforme sua necessidade (por exemplo, para executar diariamente às 1h da manhã, mantenha o agendamento padrão ou ajuste conforme preferir).
-
-## Passo 8: Testar a Configuração
+## Passo 7: Testar a Configuração
 Após configurar tudo, é importante testar se o backup está funcionando corretamente.
 
 No Zabbix, vá até Monitoring (Monitoramento) > Latest Data (Últimos Dados).
