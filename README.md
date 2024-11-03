@@ -1,4 +1,4 @@
-# bkp_mk_zbx
+# BACKUP EQUIPAMENTOS MIKROTIK VIA ZABBIX 7.0
 Backup de Equipamentos Mikrotik utilizando Zabbix 7.0
 
 Esse tutorial foi desenvolvido por Anderson Reis utilizando o chat gpt.
