@@ -1,72 +1,112 @@
-# BACKUP EQUIPAMENTOS MIKROTIK VIA ZABBIX 7.0
-Backup de Equipamentos Mikrotik utilizando Zabbix 7.0
+#Backup de Equipamentos MikroTik via Zabbix 7.0
+Desenvolvido por Anderson Reis com a ajuda do ChatGPT
 
-Esse tutorial foi desenvolvido por Anderson Reis utilizando o chat gpt.
+Este tutorial tem como objetivo ensinar como realizar o backup de equipamentos MikroTik utilizando o Zabbix 7.0. O processo envolve a configuração de scripts em Python e Shell, além da integração com o Zabbix para automatizar as tarefas de backup.
 
-Seu objetivo é fazer backup de equipamentos Mikrotik utilizando Zabbix 7.0
+##Pré-requisitos
+Servidor com Zabbix 7.0 instalado.
+Acesso SSH aos equipamentos MikroTik a partir do servidor Zabbix.
+Conhecimentos básicos em Linux, Python e Shell Script.
 
-Para isso o Mikrotik deve ser acessível via SSH do servidor que contem o zabbix instalado.
-
-Devemos primeiro instalar paramiko
+##Passo 1: Atualizar o Sistema e Instalar o Paramiko
+Primeiramente, atualize os pacotes do sistema e instale a biblioteca paramiko, que será utilizada para comunicação SSH com os equipamentos MikroTik.
 
 ```bash
-apt update
-apt install python3-paramiko
+sudo apt update
+sudo apt install python3-paramiko -y
 ```
 
-Primeiramente iremos criar um script em Python que utiliza a biblioteca Paramiko para acessar os equipamentos mikrotik e realizar o backup.
+##Passo 2: Criar o Script em Python para Backup
+O script em Python utilizará a biblioteca Paramiko para acessar os equipamentos MikroTik e realizar o backup.
 
-O script deve ser criado em: 
+Navegue até o diretório de scripts externos do Zabbix:
 
-```python
+Cole o arquivo backup_mk.py dentro do diretorio abaixo:
+
+```bash
 cd /usr/lib/zabbix/externalscripts
-nano backup_mk.py
 ```
 
-Devemos dar permissão de execução para o script e também colocar como dono o usuário e grupo zabbix.
+Dê permissão de execução e ajuste o dono/grupo do script:
 
-```python
-chmod +x backup_mk.py
-chown zabbix:zabbix backup_mk.py
+```bash
+sudo chmod +x /usr/lib/zabbix/externalscripts/backup_mk.py
+sudo chown zabbix:zabbix /usr/lib/zabbix/externalscripts/backup_mk.py
 ```
 
-Como o zabbix não entende python, devemos criar um script em Shell Script na mesma pasta anterior, para chamar o script em python e passar os parametros que serão recebidos do zabbix.
+##Passo 3: Criar o Script Shell para Integração com o Zabbix
+Como o Zabbix não interpreta diretamente scripts Python, criaremos um script Shell que chama o script Python, passando os parâmetros necessários.
 
-```python
+No mesmo diretório de scripts externos, crie ou copie o arquivo arquivo backup_mikrotik.sh:
+
+```bash
 cd /usr/lib/zabbix/externalscripts
-nano backup_mikrotik.sh
 ```
 
-Devemos dar permissão de execução para o script e também colocar como dono o usuário e grupo zabbix.
-
-```python
-chmod +x backup_mk.py
-chown zabbix:zabbix backup_mikrotik.sh
-```
-
-Utilize o script backup_mikrotik.sh
-
-Esse script recebe os mesmos 5 parâmetros do Zabbix
-
-Devemos criar uma pasta que receberá os backups, essa pasta deverá ter dono e grupo zabbix.
+Dê permissão de execução e ajuste o dono/grupo do script:
 
 ```bash
-mkdir /home/zabbix/backups
-chown -R zabbix:zabbix /home/zabbix
+sudo chmod +x /usr/lib/zabbix/externalscripts/backup_mikrotik.sh
+sudo chown zabbix:zabbix /usr/lib/zabbix/externalscripts/backup_mikrotik.sh
 ```
 
-Dentro do Zabbix 7 devemos importar o template que está com o nome: Template_Mikrotik_Backup_Zabbix_7.json
-
-Agora basta inserir esse template no host que quiser.
-
-Após inserir no host é necessário alterar alterar as Macros Herdadas, para que o script consiga acessar o Mikrotik
-
-São 3 variáveis que devem ser alteradas
+##Passo 4: Configurar o Diretório de Backups
+Crie um diretório onde os backups serão armazenados e ajuste as permissões adequadamente.
 
 ```bash
-{$USERNAME} = inserir o usuario do mikrotik
-{$PASSWORD} = inserir a senha do mikrotik
-{$BACKUP_DIR} = inserir o diretorio configurado anteriormente /home/zabbix/backups
+sudo mkdir -p /home/zabbix/backups
+sudo chown -R zabbix:zabbix /home/zabbix
+sudo chmod -R 750 /home/zabbix/backups
 ```
 
-Por padrão o template está configurado para executar o script 1 vez ao dia a 1 hora da manhã.
+##Passo 5: Importar e Configurar o Template no Zabbix
+Acesse a interface web do Zabbix com uma conta administrativa.
+
+Navegue até Configuration (Configuração) > Templates (Templates).
+
+Clique em Import (Importar) e selecione o arquivo Template_Mikrotik_Backup_Zabbix_7.json.
+
+Após a importação, vá para Configuration (Configuração) > Hosts (Hosts) e selecione o host MikroTik que deseja configurar.
+
+Clique em Templates (Templates) e adicione o template Template_Mikrotik_Backup_Zabbix_7 ao host.
+
+##Passo 6: Configurar as Macros no Host
+Para que o script possa acessar o MikroTik, é necessário configurar as macros herdadas no host.
+
+No host MikroTik, vá para a aba Macros.
+
+Configure as seguintes macros:
+
+{$USERNAME}: Insira o usuário SSH do MikroTik.
+{$PASSWORD}: Insira a senha SSH do MikroTik.
+{$BACKUP_DIR}: Insira o diretório de backups configurado anteriormente (/home/zabbix/backups).
+
+##Passo 7: Agendar a Tarefa de Backup
+Por padrão, o template está configurado para executar o script uma vez ao dia, às 1 hora da manhã. Caso deseje alterar o agendamento:
+
+No host MikroTik, navegue até Configuration (Configuração) > Templates (Templates).
+
+Selecione o template Template_Mikrotik_Backup_Zabbix_7 e edite o Item (Item) ou Trigger (Gatilho) responsável pelo agendamento.
+
+Ajuste o Intervalo de atualização conforme sua necessidade (por exemplo, para executar diariamente às 1h da manhã, mantenha o agendamento padrão ou ajuste conforme preferir).
+
+##Passo 8: Testar a Configuração
+Após configurar tudo, é importante testar se o backup está funcionando corretamente.
+
+No Zabbix, vá até Monitoring (Monitoramento) > Latest Data (Últimos Dados).
+
+Selecione o host MikroTik e verifique os itens relacionados ao backup.
+
+Verifique se os backups estão sendo salvos no diretório /home/zabbix/backups com os nomes apropriados.
+
+Caso haja erros, verifique os logs do Zabbix e ajuste as permissões ou configurações conforme necessário.
+
+##Dicas de Segurança
+Permissões: Garanta que apenas o usuário zabbix tenha acesso aos scripts e diretórios de backup.
+
+Backups Remotos: Considere armazenar backups em um local remoto ou serviço de armazenamento seguro para proteção adicional.
+
+##Conclusão
+Com este tutorial, você configurou com sucesso o backup automático de equipamentos MikroTik utilizando o Zabbix 7.0. Manter backups regulares é essencial para garantir a recuperação rápida em caso de falhas ou configurações incorretas. Lembre-se de monitorar regularmente os backups e testar a restauração para assegurar que tudo está funcionando conforme o esperado.
+
+Caso tenha dúvidas ou encontre problemas durante a configuração, não hesite em consultar a documentação oficial do Zabbix ou buscar suporte na comunidade.
