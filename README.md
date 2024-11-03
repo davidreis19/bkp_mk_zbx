@@ -34,7 +34,7 @@ sudo chmod +x /usr/lib/zabbix/externalscripts/backup_mk.py
 sudo chown zabbix:zabbix /usr/lib/zabbix/externalscripts/backup_mk.py
 ```
 
-##Passo 3: Criar o Script Shell para Integração com o Zabbix
+## Passo 3: Criar o Script Shell para Integração com o Zabbix
 Como o Zabbix não interpreta diretamente scripts Python, criaremos um script Shell que chama o script Python, passando os parâmetros necessários.
 
 No mesmo diretório de scripts externos, crie ou copie o arquivo arquivo backup_mikrotik.sh:
@@ -70,7 +70,7 @@ Após a importação, vá para Configuration (Configuração) > Hosts (Hosts) e 
 
 Clique em Templates (Templates) e adicione o template Template_Mikrotik_Backup_Zabbix_7 ao host.
 
-##Passo 6: Configurar as Macros no Host
+## Passo 6: Configurar as Macros no Host
 Para que o script possa acessar o MikroTik, é necessário configurar as macros herdadas no host.
 
 No host MikroTik, vá para a aba Macros.
