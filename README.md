@@ -65,6 +65,6 @@ mkdir /home/zabbix/backups
 chown -R zabbix:zabbix /home/zabbix
 ```
 
-Dentro do Zabbix 7 devemos importar o templete que está com o nome: Template_Mikrotik_Backup_Zabbix_7.json
+Dentro do Zabbix 7 devemos importar o template que está com o nome: Template_Mikrotik_Backup_Zabbix_7.json
 
 Agora basta inserir esse template no host que quiser.
