@@ -1,0 +1,62 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "b47882d0894a4555b4016fda8979078f",
+                "name": "Mikrotik"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "0ba2569edeb34b32a407ca533f4e7ea9",
+                "template": "Template MikroTik Backup AP e PAP",
+                "name": "Template MikroTik Backup AP e PAP",
+                "description": "Script para gerar backup automatico de equipamentos Mikrotik",
+                "groups": [
+                    {
+                        "name": "Mikrotik"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "9c2c796c4a1b4d76984994c775089a94",
+                        "name": "Backup MikroTik",
+                        "type": "EXTERNAL",
+                        "key": "backup_mikrotik.sh[{HOST.IP},{HOST.NAME},{$USERNAME},{$PASSWORD},{$BACKUP_DIR}]",
+                        "delay": "1d;h1",
+                        "history": "1d",
+                        "value_type": "TEXT",
+                        "timeout": "15s",
+                        "triggers": [
+                            {
+                                "uuid": "66e3093c48cf4a17b58035fb501fbc0f",
+                                "expression": "left(last(/Template MikroTik Backup AP e PAP/backup_mikrotik.sh[{HOST.IP},{HOST.NAME},{$USERNAME},{$PASSWORD},{$BACKUP_DIR}]),28)<> \"Backup realizado com sucesso\"",
+                                "name": "Backup_Nao_Realizado",
+                                "priority": "INFO",
+                                "manual_close": "YES"
+                            }
+                        ]
+                    }
+                ],
+                "macros": [
+                    {
+                        "macro": "{$BACKUP_DIR}",
+                        "value": "/home/zabbix/backup_mk/",
+                        "description": "Troque para o caminho que o backup sera feito"
+                    },
+                    {
+                        "macro": "{$PASSWORD}",
+                        "value": "senha",
+                        "description": "Troque o value para a senha do mikrotik"
+                    },
+                    {
+                        "macro": "{$USERNAME}",
+                        "value": "usuario",
+                        "description": "Troque o value para o usuario do mikrotik"
+                    }
+                ]
+            }
+        ]
+    }
+}
